@@ -2,8 +2,11 @@
   "compilerOptions": {
     "module": "CommonJS",
     "target": "ES6",
-    "baseUrl": "/.src"
+    "baseUrl": "/.src",
+    "paths": {
+      "@/*": ["*"],
+    },
   },
-  "include": ["src/**/*.d.ts", "src/**/*.js"],
-  "exclude": ["node_modules", "**/node_modules", "dist"]
+  "include": ["src/**/*.js"],
+  "exclude": ["node_modules", "**/node_modules", "dist"],
 }
