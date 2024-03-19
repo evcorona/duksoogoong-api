@@ -13,7 +13,7 @@ const server = express()
 server.use(cors())
 server.use(express.json())
 
-// Server routes
+// Server
 server.use('/auth', authRouter)
 server.use('/user', userRouter)
 server.use('/student', studentRouter)

@@ -1,4 +1,4 @@
-const userData = require('utils/userData')
+const userData = require('../utils/userData')
 
 function adminAuth(request, response, next) {
   try {

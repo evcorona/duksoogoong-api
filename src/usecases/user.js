@@ -1,4 +1,4 @@
-const User = require('models/user')
+const User = require('../models/User')
 
 async function getById(id) {
   const users = await User.findById(id).populate('school')

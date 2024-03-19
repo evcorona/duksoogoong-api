@@ -1,6 +1,6 @@
 const express = require('express')
-const student = require('usecases/student')
-const auth = require('middlewares/auth')
+const student = require('../usecases/student')
+const auth = require('../middlewares/auth')
 
 const router = express.Router()
 

@@ -1,4 +1,4 @@
-const School = require('models/school')
+const School = require('../models/School')
 
 async function getAll() {
   const schools = await School.find({})

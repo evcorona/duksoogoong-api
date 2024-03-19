@@ -1,6 +1,6 @@
 const express = require('express')
-const auth = require('usecases/auth')
-const validateAuth = require('middlewares/auth')
+const auth = require('../usecases/auth')
+const validateAuth = require('../middlewares/auth')
 
 const router = express.Router()
 

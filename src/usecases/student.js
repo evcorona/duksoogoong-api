@@ -1,4 +1,4 @@
-const Student = require('models/student')
+const Student = require('../models/Student')
 
 async function getAll() {
   const students = await Student.find({}).populate('school').populate('tutor')
