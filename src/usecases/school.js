@@ -1,4 +1,6 @@
 const School = require('../models/School')
+const Student = require('../models/Student')
+const User = require('../models/User')
 
 async function getAll() {
   const schools = await School.find({})
@@ -18,14 +20,17 @@ async function create(data) {
   return school
 }
 
-async function update(id, newData) {
+async function updateById(id, newData) {
   const school = await School.findByIdAndUpdate(id, newData)
 
   return school
 }
 
 async function deleteById(id) {
-  const school = await School.findByIdAndDelete(id)
+  const school = await School.findByIdAndUpdate(id, { isActive: false })
+
+  await User.updateMany({ schoolId: id }, { isActive: false })
+  await Student.updateMany({ schoolId: id }, { isActive: false })
 
   return school
 }
@@ -34,6 +39,6 @@ module.exports = {
   getAll,
   getById,
   create,
-  update,
+  updateById,
   deleteById,
 }
