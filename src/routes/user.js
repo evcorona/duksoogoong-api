@@ -19,6 +19,35 @@ router.get('/:id', auth, async (req, res) => {
   }
 })
 
+router.get('/admins', auth, async (req, res) => {
+  try {
+    const admins = await user.getAllAdmins()
+
+    res.json({
+      success: true,
+      data: { admins },
+    })
+  } catch (error) {
+    res.status(400)
+    res.json({ success: false, message: error.message })
+  }
+})
+
+router.get('/admins/school/:id', auth, async (req, res) => {
+  try {
+    const { id } = req.params
+    const admins = await user.getAdminsBySchool(id)
+
+    res.json({
+      success: true,
+      data: { admins },
+    })
+  } catch (error) {
+    res.status(400)
+    res.json({ success: false, message: error.message })
+  }
+})
+
 router.get('/teachers', auth, async (req, res) => {
   try {
     const teachers = await user.getAllTeachers()
@@ -80,7 +109,7 @@ router.get('/tutors/school/:id', auth, async (req, res) => {
 router.put('/:id', auth, async (req, res) => {
   try {
     const { id } = req.params
-    const userData = await user.update(id, req.body)
+    const userData = await user.updateById(id, req.body)
 
     res.json({
       success: true,
@@ -93,7 +122,7 @@ router.put('/:id', auth, async (req, res) => {
   }
 })
 
-router.delete('/:id', async (req, res) => {
+router.delete('/:id', auth, async (req, res) => {
   try {
     const { id } = req.params
     await user.delete(id)

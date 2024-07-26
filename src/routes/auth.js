@@ -33,4 +33,32 @@ router.post('/login', async (req, res) => {
   }
 })
 
+router.post('/changeCredentials', validateAuth, async (req, res) => {
+  try {
+    await auth.changeCredentials(req.body)
+
+    res.json({
+      success: true,
+      message: 'Credentials updated successfully',
+    })
+  } catch (error) {
+    res.status(401)
+    res.json({ success: false, message: error.message })
+  }
+})
+
+router.post('/resetCredentials', validateAuth, async (req, res) => {
+  try {
+    await auth.resetCredentials(req.body)
+
+    res.json({
+      success: true,
+      message: 'Credentials updated successfully',
+    })
+  } catch (error) {
+    res.status(401)
+    res.json({ success: false, message: error.message })
+  }
+})
+
 module.exports = router

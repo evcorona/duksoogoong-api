@@ -33,10 +33,25 @@ router.get('/:id', auth, async (req, res) => {
   }
 })
 
+router.push('/', auth, async (req, res) => {
+  try {
+    const schoolData = await school.create(req.body)
+
+    res.json({
+      success: true,
+      message: 'School created successfully',
+      data: { school: schoolData },
+    })
+  } catch (error) {
+    res.status(401)
+    res.json({ success: false, message: error.message })
+  }
+})
+
 router.put('/:id', auth, async (req, res) => {
   try {
     const { id } = req.params
-    const schoolData = await school.update(id, req.body)
+    const schoolData = await school.updateById(id, req.body)
 
     res.json({
       success: true,
@@ -49,14 +64,14 @@ router.put('/:id', auth, async (req, res) => {
   }
 })
 
-router.delete('/:id', async (req, res) => {
+router.delete('/:id', auth, async (req, res) => {
   try {
     const { id } = req.params
     await school.delete(id)
 
     res.json({
       success: true,
-      message: 'School deleted successfully',
+      message: 'School and related deleted successfully',
     })
   } catch (error) {
     res.status(401)

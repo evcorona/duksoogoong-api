@@ -17,6 +17,20 @@ router.get('/', auth, async (req, res) => {
     res.json({ success: false, message: error.message })
   }
 })
+router.get('/school/inactive/:id', auth, async (req, res) => {
+  try {
+    const { id } = req.params
+    const studentsData = await student.getInactiveBySchool(id)
+
+    res.json({
+      success: true,
+      data: { students: studentsData },
+    })
+  } catch (error) {
+    res.status(400)
+    res.json({ success: false, message: error.message })
+  }
+})
 
 router.get('/:id', auth, async (req, res) => {
   try {
@@ -63,6 +77,21 @@ router.get('/tutor/:id', auth, async (req, res) => {
   }
 })
 
+router.get('/teacher/:id', auth, async (req, res) => {
+  try {
+    const { id } = req.params
+    const studentsData = await student.getStudentsByTeacher(id)
+
+    res.json({
+      success: true,
+      data: { students: studentsData },
+    })
+  } catch (error) {
+    res.status(400)
+    res.json({ success: false, message: error.message })
+  }
+})
+
 router.post('/', auth, async (req, res) => {
   try {
     await student.create(req.body)
@@ -80,7 +109,7 @@ router.post('/', auth, async (req, res) => {
 router.put('/:id', auth, async (req, res) => {
   try {
     const { id } = req.params
-    const studentData = await student.update(id, req.body)
+    const studentData = await student.updateById(id, req.body)
 
     res.json({
       success: true,
@@ -93,10 +122,10 @@ router.put('/:id', auth, async (req, res) => {
   }
 })
 
-router.delete('/:id', async (req, res) => {
+router.delete('/:id', auth, async (req, res) => {
   try {
     const { id } = req.params
-    await student.delete(id)
+    await student.deleteById(id)
 
     res.json({
       success: true,
