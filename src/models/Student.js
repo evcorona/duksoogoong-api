@@ -2,7 +2,7 @@ const mongoose = require('mongoose')
 
 const schema = new mongoose.Schema(
   {
-    firstName: {
+    name: {
       type: String,
       minlength: 1,
       lowercase: true,
@@ -32,13 +32,23 @@ const schema = new mongoose.Schema(
       enum: ['kup', 'pum', 'dan'],
       required: true,
     },
-    lastGradeUpdated: {
+    lastGradeUpdatedAt: {
       type: Date,
       required: true,
     },
     schoolId: {
       type: mongoose.Schema.Types.ObjectId,
       ref: 'School',
+      required: true,
+    },
+    teacherId: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: 'User',
+      required: true,
+    },
+    userId: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: 'User',
     },
     tutorId: {
       type: mongoose.Schema.Types.ObjectId,

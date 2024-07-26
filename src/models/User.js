@@ -11,7 +11,7 @@ const schema = new mongoose.Schema(
       trim: true,
       unique: true,
     },
-    firstName: {
+    name: {
       type: String,
       minlength: 1,
       lowercase: true,
@@ -34,7 +34,7 @@ const schema = new mongoose.Schema(
     role: {
       type: String,
       lowercase: true,
-      enum: ['tutor', 'teacher', 'admin'],
+      enum: ['student', 'tutor', 'teacher', 'admin', 'main'],
       required: true,
     },
     schoolId: {
@@ -42,6 +42,11 @@ const schema = new mongoose.Schema(
       ref: 'School',
     },
     isActive: {
+      type: Boolean,
+      default: true,
+      required: true,
+    },
+    isInitialSetup: {
       type: Boolean,
       default: true,
       required: true,
