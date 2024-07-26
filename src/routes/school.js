@@ -33,7 +33,7 @@ router.get('/:id', auth, async (req, res) => {
   }
 })
 
-router.push('/', auth, async (req, res) => {
+router.post('/', auth, async (req, res) => {
   try {
     const schoolData = await school.create(req.body)
 
