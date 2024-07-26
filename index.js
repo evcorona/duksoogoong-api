@@ -7,7 +7,7 @@ const server = require('./api/server')
 db.connect
   .then(() =>
     server.listen('8080', () => {
-      console.log('Server is listening 🚀')
+      console.log('Server DukSooGoong is listening 🚀')
     })
   )
   .catch(error => {
