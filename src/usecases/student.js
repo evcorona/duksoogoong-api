@@ -3,9 +3,9 @@ const User = require('../models/User')
 
 async function getAll() {
   const students = await Student.find({ isActive: true })
-    .populate('school')
-    .populate('tutor')
-    .populate('teacher')
+  // .populate('school')
+  // .populate('tutor')
+  // .populate('teacher')
 
   return students
 }
@@ -56,7 +56,22 @@ async function getStudentsByTeacher(teacherId) {
 }
 
 async function create(data) {
-  const student = await Student.create(data)
+  const student = await Student.findOneAndUpdate(
+    {
+      name: data.name,
+      lastName: data.lastName,
+      birthDate: data.birthDate,
+    },
+    {
+      ...data,
+      isActive: true,
+      lastGradeUpdatedAt: new Date(),
+    },
+    {
+      returnDocument: 'after',
+      upsert: true,
+    }
+  )
 
   return student
 }

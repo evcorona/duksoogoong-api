@@ -15,9 +15,9 @@ server.use(express.json())
 
 // Server
 server.use('/auth', authRouter)
-server.use('/user', userRouter)
-server.use('/student', studentRouter)
-server.use('/school', schoolRouter)
+server.use('/users', userRouter)
+server.use('/students', studentRouter)
+server.use('/schools', schoolRouter)
 
 // Server response
 server.get('/', (request, response) => {

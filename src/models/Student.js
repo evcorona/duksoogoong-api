@@ -16,20 +16,68 @@ const schema = new mongoose.Schema(
       trim: true,
       required: true,
     },
-    birthDate: {
-      type: Date,
+    civilStatus: {
+      type: String,
+      enum: ['married', 'divorced', 'separated', 'single', 'widowed'],
+      minlength: 1,
+      lowercase: true,
+      trim: true,
       required: true,
     },
-    level: {
+    occupation: {
+      type: String,
+      minlength: 1,
+      lowercase: true,
+      trim: true,
+      required: true,
+    },
+    birthDate: {
+      type: String,
+      lowercase: true,
+      trim: true,
+      required: true,
+      validate: {
+        validator: value => /\d{4}\/\d{2}\/\d{2}/.test(value),
+        message: props =>
+          `${props.value} is not a valid date in the format YYYY/MM/DD`,
+      },
+    },
+    timePracticing: {
       type: Number,
       min: 1,
       max: 10,
       required: true,
     },
-    grade: {
+    periodTime: {
       type: String,
       minlength: 1,
-      enum: ['kup', 'pum', 'dan'],
+      enum: ['months', 'years'],
+      required: true,
+    },
+    school: {
+      type: String,
+      minlength: 1,
+      lowercase: true,
+      trim: true,
+      required: true,
+    },
+    teacher: {
+      type: String,
+      minlength: 1,
+      lowercase: true,
+      trim: true,
+      required: true,
+    },
+    grade: {
+      type: Number,
+      min: 0,
+      max: 10,
+      required: true,
+    },
+    level: {
+      type: String,
+      minlength: 1,
+      enum: ['kup', 'poom', 'dan'],
       required: true,
     },
     lastGradeUpdatedAt: {
@@ -39,12 +87,10 @@ const schema = new mongoose.Schema(
     schoolId: {
       type: mongoose.Schema.Types.ObjectId,
       ref: 'School',
-      required: true,
     },
     teacherId: {
       type: mongoose.Schema.Types.ObjectId,
       ref: 'User',
-      required: true,
     },
     userId: {
       type: mongoose.Schema.Types.ObjectId,

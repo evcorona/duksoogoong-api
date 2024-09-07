@@ -4,7 +4,7 @@ const auth = require('../middlewares/auth')
 
 const router = express.Router()
 
-router.get('/', auth, async (req, res) => {
+router.get('/', async (req, res) => {
   try {
     const studentsData = await student.getAll()
 
@@ -92,13 +92,14 @@ router.get('/teacher/:id', auth, async (req, res) => {
   }
 })
 
-router.post('/', auth, async (req, res) => {
+router.post('/', async (req, res) => {
   try {
-    await student.create(req.body)
+    const data = await student.create(req.body)
 
     res.json({
       success: true,
       message: 'Student created successfully',
+      data,
     })
   } catch (error) {
     res.status(400)
