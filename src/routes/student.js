@@ -1,10 +1,11 @@
 const express = require('express')
 const student = require('../usecases/student')
 const auth = require('../middlewares/auth')
+const allowCors = require('../middlewares/allowCors')
 
 const router = express.Router()
 
-router.get('/', async (req, res) => {
+router.get('/', allowCors, async (req, res) => {
   try {
     const studentsData = await student.getAll()
 
@@ -92,7 +93,7 @@ router.get('/teacher/:id', auth, async (req, res) => {
   }
 })
 
-router.post('/', async (req, res) => {
+router.post('/', allowCors, async (req, res) => {
   try {
     const data = await student.create(req.body)
 
