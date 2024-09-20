@@ -10,7 +10,7 @@ const schoolRouter = require('../src/routes/school')
 const server = express()
 
 // Server tools
-server.use(cors())
+server.use(cors({ origin: '*' }))
 server.use(express.json())
 
 // Server
