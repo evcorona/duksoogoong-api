@@ -2,7 +2,6 @@
   "name": "duksoogoong-api",
   "version": "1.0.0",
   "description": "",
-  "main": "api/index.js",
   "author": "@veroxcrown",
   "engine": {
     "node": "20.x",
