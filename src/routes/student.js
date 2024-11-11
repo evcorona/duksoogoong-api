@@ -32,7 +32,7 @@ router.get('/school/inactive/:id', auth, async (req, res) => {
   }
 })
 
-router.get('/:id', auth, async (req, res) => {
+router.get('/:id', async (req, res) => {
   try {
     const { id } = req.params
     const studentData = await student.getById(id)
@@ -47,7 +47,7 @@ router.get('/:id', auth, async (req, res) => {
   }
 })
 
-router.get('/school/:id', auth, async (req, res) => {
+router.get('/school/:id', async (req, res) => {
   try {
     const { id } = req.params
     const studentsData = await student.getStudentsBySchool(id)
@@ -62,7 +62,7 @@ router.get('/school/:id', auth, async (req, res) => {
   }
 })
 
-router.get('/tutor/:id', auth, async (req, res) => {
+router.get('/tutor/:id', async (req, res) => {
   try {
     const { id } = req.params
     const studentsData = await student.getStudentsByTutor(id)
@@ -77,7 +77,7 @@ router.get('/tutor/:id', auth, async (req, res) => {
   }
 })
 
-router.get('/teacher/:id', auth, async (req, res) => {
+router.get('/teacher/:id', async (req, res) => {
   try {
     const { id } = req.params
     const studentsData = await student.getStudentsByTeacher(id)
@@ -107,7 +107,7 @@ router.post('/', async (req, res) => {
   }
 })
 
-router.put('/:id', auth, async (req, res) => {
+router.put('/:id', async (req, res) => {
   try {
     const { id } = req.params
     const studentData = await student.updateById(id, req.body)
@@ -123,7 +123,7 @@ router.put('/:id', auth, async (req, res) => {
   }
 })
 
-router.delete('/:id', auth, async (req, res) => {
+router.delete('/:id', async (req, res) => {
   try {
     const { id } = req.params
     await student.deleteById(id)

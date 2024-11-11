@@ -1,10 +1,10 @@
 const express = require('express')
 const school = require('../usecases/school')
-const auth = require('../middlewares/auth')
+// const auth = require('../middlewares/auth')
 
 const router = express.Router()
 
-router.get('/', auth, async (req, res) => {
+router.get('/', async (req, res) => {
   try {
     const schoolsData = await school.getAll()
 
@@ -18,7 +18,7 @@ router.get('/', auth, async (req, res) => {
   }
 })
 
-router.get('/:id', auth, async (req, res) => {
+router.get('/:id', async (req, res) => {
   try {
     const { id } = req.params
     const schoolData = await school.getById(id)
@@ -33,7 +33,7 @@ router.get('/:id', auth, async (req, res) => {
   }
 })
 
-router.post('/', auth, async (req, res) => {
+router.post('/', async (req, res) => {
   try {
     const schoolData = await school.create(req.body)
 
@@ -48,7 +48,7 @@ router.post('/', auth, async (req, res) => {
   }
 })
 
-router.put('/:id', auth, async (req, res) => {
+router.put('/:id', async (req, res) => {
   try {
     const { id } = req.params
     const schoolData = await school.updateById(id, req.body)
@@ -64,7 +64,7 @@ router.put('/:id', auth, async (req, res) => {
   }
 })
 
-router.delete('/:id', auth, async (req, res) => {
+router.delete('/:id', async (req, res) => {
   try {
     const { id } = req.params
     await school.delete(id)

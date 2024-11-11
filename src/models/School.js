@@ -43,9 +43,6 @@ const schema = new mongoose.Schema(
       default: true,
       required: true,
     },
-    lastLoginAt: {
-      type: Date,
-    },
   },
   { timestamps: true }
 )

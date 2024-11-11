@@ -1,10 +1,10 @@
 const express = require('express')
 const user = require('../usecases/user')
-const auth = require('../middlewares/auth')
+// const auth = require('../middlewares/auth')
 
 const router = express.Router()
 
-router.get('/:id', auth, async (req, res) => {
+router.get('/:id', async (req, res) => {
   try {
     const { id } = req.params
     const userData = await user.getById(id)
@@ -19,7 +19,7 @@ router.get('/:id', auth, async (req, res) => {
   }
 })
 
-router.get('/admins', auth, async (req, res) => {
+router.get('/admins', async (req, res) => {
   try {
     const admins = await user.getAllAdmins()
 
@@ -33,7 +33,7 @@ router.get('/admins', auth, async (req, res) => {
   }
 })
 
-router.get('/admins/school/:id', auth, async (req, res) => {
+router.get('/admins/school/:id', async (req, res) => {
   try {
     const { id } = req.params
     const admins = await user.getAdminsBySchool(id)
@@ -48,7 +48,7 @@ router.get('/admins/school/:id', auth, async (req, res) => {
   }
 })
 
-router.get('/teachers', auth, async (req, res) => {
+router.get('/teachers', async (req, res) => {
   try {
     const teachers = await user.getAllTeachers()
 
@@ -62,7 +62,7 @@ router.get('/teachers', auth, async (req, res) => {
   }
 })
 
-router.get('/teachers/school/:id', auth, async (req, res) => {
+router.get('/teachers/school/:id', async (req, res) => {
   try {
     const { id } = req.params
     const teachers = await user.getTeachersBySchool(id)
@@ -77,7 +77,7 @@ router.get('/teachers/school/:id', auth, async (req, res) => {
   }
 })
 
-router.get('/tutors', auth, async (req, res) => {
+router.get('/tutors', async (req, res) => {
   try {
     const tutors = await user.getAllTutors()
 
@@ -91,7 +91,7 @@ router.get('/tutors', auth, async (req, res) => {
   }
 })
 
-router.get('/tutors/school/:id', auth, async (req, res) => {
+router.get('/tutors/school/:id', async (req, res) => {
   try {
     const { id } = req.params
     const tutors = await user.getTutorsBySchool(id)
@@ -106,7 +106,7 @@ router.get('/tutors/school/:id', auth, async (req, res) => {
   }
 })
 
-router.put('/:id', auth, async (req, res) => {
+router.put('/:id', async (req, res) => {
   try {
     const { id } = req.params
     const userData = await user.updateById(id, req.body)
@@ -122,7 +122,7 @@ router.put('/:id', auth, async (req, res) => {
   }
 })
 
-router.delete('/:id', auth, async (req, res) => {
+router.delete('/:id', async (req, res) => {
   try {
     const { id } = req.params
     await user.delete(id)
