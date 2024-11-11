@@ -3,7 +3,7 @@ const Student = require('../models/Student')
 const User = require('../models/User')
 
 async function getAll() {
-  const schools = await School.find({})
+  const schools = await School.find({ isActive: true })
 
   return schools
 }
