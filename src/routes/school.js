@@ -67,7 +67,7 @@ router.put('/:id', async (req, res) => {
 router.delete('/:id', async (req, res) => {
   try {
     const { id } = req.params
-    await school.delete(id)
+    await school.deleteById(id)
 
     res.json({
       success: true,

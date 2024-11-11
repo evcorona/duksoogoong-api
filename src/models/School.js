@@ -33,7 +33,7 @@ const schema = new mongoose.Schema(
           type: String,
           minlength: 1,
           maxlength: 6,
-          match: /[0-9]{6}/g,
+          match: /[0-9]/g,
           trim: true,
         },
       },
