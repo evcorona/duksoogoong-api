@@ -18,7 +18,7 @@ router.get('/', async (req, res) => {
   }
 })
 
-router.get('/school/id', async (req, res) => {
+router.get('/school/:id', async (req, res) => {
   try {
     const { id } = req.params
     const teachersData = await teacher.getTeachersBySchoolId(id)
