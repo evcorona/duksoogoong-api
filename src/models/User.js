@@ -11,20 +11,6 @@ const schema = new mongoose.Schema(
       trim: true,
       unique: true,
     },
-    name: {
-      type: String,
-      minlength: 1,
-      lowercase: true,
-      trim: true,
-      required: true,
-    },
-    lastName: {
-      type: String,
-      minlength: 1,
-      lowercase: true,
-      trim: true,
-      required: true,
-    },
     password: {
       type: String,
       minlength: 5,
@@ -36,10 +22,6 @@ const schema = new mongoose.Schema(
       lowercase: true,
       enum: ['student', 'tutor', 'teacher', 'admin', 'main'],
       required: true,
-    },
-    schoolId: {
-      type: mongoose.Schema.Types.ObjectId,
-      ref: 'School',
     },
     isActive: {
       type: Boolean,
