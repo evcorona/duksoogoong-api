@@ -27,10 +27,9 @@ const schema = new mongoose.Schema(
       type: mongoose.Schema.Types.ObjectId,
       ref: 'User',
     },
-    subRole: {
-      type: String,
-      lowercase: true,
-      enum: ['admin', 'teacher'],
+    isAdmin: {
+      type: Boolean,
+      default: false,
       required: true,
     },
     schoolId: {
