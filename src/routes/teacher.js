@@ -1,5 +1,5 @@
 const express = require('express')
-const teacher = require('./teacher')
+const teacher = require('../usecases/teacher')
 // const auth = require('../middlewares/auth')
 
 const router = express.Router()
