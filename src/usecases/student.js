@@ -3,54 +3,54 @@ const User = require('../models/User')
 
 async function getAll() {
   const students = await Student.find({ isActive: true })
-  // .populate('school')
-  // .populate('tutor')
-  // .populate('teacher')
+  // .populate('schoolId')
+  // .populate('tutorId')
+  // .populate('teacherId')
 
   return students
 }
 
 async function getInactiveBySchool(schoolId) {
   const students = await Student.find({ isActive: false, schoolId })
-    .populate('school')
-    .populate('tutor')
-    .populate('teacher')
+    .populate('schoolId')
+    .populate('tutorId')
+    .populate('teacherId')
 
   return students
 }
 
 async function getById(id) {
   const student = await Student.findById(id)
-    .populate('school')
-    .populate('tutor')
-    .populate('teacher')
+    .populate('schoolId')
+    .populate('tutorId')
+    .populate('teacherId')
 
   return student
 }
 
 async function getStudentsBySchool(schoolId) {
   const students = await Student.find({ schoolId })
-    .populate('school')
-    .populate('tutor')
-    .populate('teacher')
+    .populate('schoolId')
+    .populate('tutorId')
+    .populate('teacherId')
 
   return students
 }
 
 async function getStudentsByTutor(tutorId) {
   const students = await Student.find({ tutorId })
-    .populate('school')
-    .populate('tutor')
-    .populate('teacher')
+    .populate('schoolId')
+    .populate('tutorId')
+    .populate('teacherId')
 
   return students
 }
 
 async function getStudentsByTeacher(teacherId) {
   const students = await Student.find({ teacherId })
-    .populate('school')
-    .populate('tutor')
-    .populate('teacher')
+    .populate('schoolId')
+    .populate('tutorId')
+    .populate('teacherId')
 
   return students
 }

@@ -3,7 +3,7 @@ const User = require('../models/User')
 const { signup } = require('./auth')
 
 async function getAll() {
-  const teachers = await Teacher.find({ isActive: true }).populate('school')
+  const teachers = await Teacher.find({ isActive: true }).populate('schoolId')
 
   return teachers
 }
@@ -12,19 +12,20 @@ async function getTeachersBySchoolId(schoolId) {
   const teachers = await Teacher.find({
     schoolId,
     isActive: true,
-  }).populate('school')
+  }).populate('userId', 'email')
 
   return teachers
 }
 
 async function getById(id) {
-  const teachers = await Teacher.findById(id).populate('school')
+  const teacher = await Teacher.findById(id).populate('userId', 'email')
 
-  return teachers
+  return teacher
 }
 
 async function create(data) {
-  const emailExist = await User.find({ email: data.email })
+  const emailExist = await User.findOne({ email: data.email })
+
   if (emailExist) throw new Error('Email already exists')
 
   const user = await signup({

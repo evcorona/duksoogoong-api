@@ -42,10 +42,6 @@ const schema = new mongoose.Schema(
       max: 10,
       required: true,
     },
-    lastGradeUpdatedAt: {
-      type: Date,
-      required: true,
-    },
     isActive: {
       type: Boolean,
       default: true,

@@ -1,20 +1,18 @@
 const User = require('../models/User')
 
 async function getById(id) {
-  const users = await User.findById(id).populate('school')
+  const users = await User.findById(id)
 
   return users
 }
 
 async function getAllTutors() {
-  const tutors = await User.find({ role: 'tutor' }).populate('school')
-
+  const tutors = await User.find({ role: 'tutor' })
   return tutors
 }
 
 async function getTutorsBySchool(schoolId) {
-  const tutors = await User.find({ role: 'tutor', schoolId }).populate('school')
-
+  const tutors = await User.find({ role: 'tutor', schoolId })
   return tutors
 }
 
