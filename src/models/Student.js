@@ -2,11 +2,55 @@ const mongoose = require('mongoose')
 
 const schema = new mongoose.Schema(
   {
-    name: {
+    birthDate: {
+      type: Date,
+      required: true,
+      validate: {
+        validator: value => value <= new Date(),
+        message: 'Birth date cannot be in the future',
+      },
+    },
+    civilStatus: {
+      type: String,
+      enum: ['married', 'divorced', 'separated', 'single', 'widowed'],
+      required: true,
+    },
+    curp: {
       type: String,
       minlength: 1,
-      lowercase: true,
+      maxlength: 18,
+      uppercase: true,
       trim: true,
+      required: true,
+    },
+    enrollmentDate: {
+      type: Date,
+      default: Date.now,
+      required: true,
+    },
+    grade: {
+      type: {
+        value: {
+          type: Number,
+          min: 0,
+          max: 10,
+          required: true,
+        },
+        level: {
+          type: String,
+          minlength: 1,
+          enum: ['kup', 'poom', 'dan'],
+          required: true,
+        },
+        lastGradeUpdatedAt: {
+          type: Date,
+        },
+      },
+      required: true,
+    },
+    isActive: {
+      type: Boolean,
+      default: true,
       required: true,
     },
     lastName: {
@@ -16,9 +60,8 @@ const schema = new mongoose.Schema(
       trim: true,
       required: true,
     },
-    civilStatus: {
+    name: {
       type: String,
-      enum: ['married', 'divorced', 'separated', 'single', 'widowed'],
       minlength: 1,
       lowercase: true,
       trim: true,
@@ -31,79 +74,68 @@ const schema = new mongoose.Schema(
       trim: true,
       required: true,
     },
-    birthDate: {
-      type: String,
-      lowercase: true,
-      trim: true,
-      required: true,
-      validate: {
-        validator: value => /\d{4}\/\d{2}\/\d{2}/.test(value),
-        message: props =>
-          `${props.value} is not a valid date in the format YYYY/MM/DD`,
-      },
-    },
-    timePracticing: {
-      type: Number,
-      min: 1,
-      max: 10,
-      required: true,
-    },
-    periodTime: {
-      type: String,
-      minlength: 1,
-      enum: ['months', 'years'],
-      required: true,
-    },
-    school: {
-      type: String,
-      minlength: 1,
-      lowercase: true,
-      trim: true,
-      required: true,
-    },
-    teacher: {
-      type: String,
-      minlength: 1,
-      lowercase: true,
-      trim: true,
-      required: true,
-    },
-    grade: {
+    priorExperienceDays: {
       type: Number,
       min: 0,
       max: 10,
       required: true,
     },
-    level: {
+    ruf: {
       type: String,
       minlength: 1,
-      enum: ['kup', 'poom', 'dan'],
-      required: true,
-    },
-    lastGradeUpdatedAt: {
-      type: Date,
-      required: true,
+      uppercase: true,
+      trim: true,
     },
     schoolId: {
       type: mongoose.Schema.Types.ObjectId,
       ref: 'School',
+      required: true,
     },
     teacherId: {
       type: mongoose.Schema.Types.ObjectId,
-      ref: 'User',
+      ref: 'Teacher',
+      required: true,
+    },
+    tutorId: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: 'Tutor',
     },
     userId: {
       type: mongoose.Schema.Types.ObjectId,
       ref: 'User',
     },
-    tutorId: {
-      type: mongoose.Schema.Types.ObjectId,
-      ref: 'User',
-    },
-    isActive: {
-      type: Boolean,
-      default: true,
-      required: true,
+    address: {
+      type: {
+        address: {
+          type: String,
+          minlength: 1,
+          lowercase: true,
+          trim: true,
+          required: true,
+        },
+        state: {
+          type: String,
+          minlength: 1,
+          lowercase: true,
+          trim: true,
+          required: true,
+        },
+        city: {
+          type: String,
+          minlength: 1,
+          lowercase: true,
+          trim: true,
+          required: true,
+        },
+        zipCode: {
+          type: String,
+          minlength: 1,
+          maxlength: 6,
+          match: /[0-9]/g,
+          trim: true,
+          required: true,
+        },
+      },
     },
   },
   { timestamps: true }

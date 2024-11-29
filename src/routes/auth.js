@@ -4,7 +4,7 @@ const validateAuth = require('../middlewares/auth')
 
 const router = express.Router()
 
-router.post('/signup', validateAuth, async (req, res) => {
+router.post('/signup', async (req, res) => {
   try {
     await auth.signup(req.body)
 

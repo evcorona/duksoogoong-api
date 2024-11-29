@@ -48,16 +48,14 @@ async function login(credentials) {
   const isValid = await bcrypt.compare(password, user.password)
   if (!isValid) throw new Error('Invalid credentials')
 
-  await User.findByIdAndUpdate(user._id, {
-    lastLoginAt: new Date(),
-  })
+  await User.findByIdAndUpdate(user._id, { lastLoginAt: new Date() })
 
   const token = jwt.sign(
-    { id: user._id, role: user.role },
+    { id: user._id, role: user.role, isInitialSetup: user.isInitialSetup },
     process.env.JWT_SECRET
   )
 
-  return token
+  return `Bearer ${token}`
 }
 
 module.exports = {

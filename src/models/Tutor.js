@@ -9,6 +9,25 @@ const schema = new mongoose.Schema(
       trim: true,
       required: true,
     },
+    lastName: {
+      type: String,
+      minlength: 1,
+      lowercase: true,
+      trim: true,
+      required: true,
+    },
+    phone: {
+      type: String,
+      minlength: 1,
+      match: /[0-9]/g,
+      trim: true,
+      required: true,
+    },
+    userId: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: 'User',
+      required: true,
+    },
     address: {
       type: {
         address: {
@@ -45,12 +64,9 @@ const schema = new mongoose.Schema(
     isActive: {
       type: Boolean,
       default: true,
-      required: true,
     },
   },
   { timestamps: true }
 )
 
-schema.index({ name: 1 })
-
-module.exports = mongoose.model('School', schema)
+module.exports = mongoose.model('Tutor', schema)

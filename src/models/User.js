@@ -33,6 +33,22 @@ const schema = new mongoose.Schema(
       default: true,
       required: true,
     },
+    schoolId: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: 'School',
+    },
+    tutorId: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: 'Tutor',
+    },
+    studentId: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: 'Student',
+    },
+    teacherId: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: 'Teacher',
+    },
     lastLoginAt: {
       type: Date,
     },

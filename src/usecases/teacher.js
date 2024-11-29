@@ -35,6 +35,11 @@ async function create(data) {
 
   const teacher = await Teacher.create({ ...data, userId: user._id })
 
+  await User.findByIdAndUpdate(user._id, {
+    teacherId: teacher._id,
+    schoolId: data.schoolId,
+  })
+
   return teacher
 }
 

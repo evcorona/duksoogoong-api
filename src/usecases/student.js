@@ -1,5 +1,6 @@
 const Student = require('../models/Student')
 const User = require('../models/User')
+const { signup } = require('./auth')
 
 async function getAll() {
   const students = await Student.find({ isActive: true })
@@ -65,13 +66,24 @@ async function create(data) {
     {
       ...data,
       isActive: true,
-      lastGradeUpdatedAt: new Date(),
     },
     {
       returnDocument: 'after',
       upsert: true,
     }
   )
+
+  if (!data?.email) return student
+
+  const emailExist = await User.findOne({ email: data.email })
+  if (emailExist) throw new Error('Email already exists')
+
+  await signup({
+    email: data.email,
+    role: 'student',
+    studentId: student._id,
+    schoolId: data.schoolId,
+  })
 
   return student
 }
