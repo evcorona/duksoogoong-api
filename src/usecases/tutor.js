@@ -3,6 +3,8 @@ const User = require('../models/User')
 const Student = require('../models/Student')
 const { signup } = require('./auth')
 
+const convertToObjectId = require('../utils/convertToObjectId')
+
 async function getAll() {
   const tutors = await Tutor.find({ isActive: true }).populate('schoolId')
 
@@ -11,7 +13,8 @@ async function getAll() {
 
 async function getTutorsBySchoolId(schoolId) {
   const tutors = await Student.aggregate([
-    { $match: { schoolId } },
+    { $match: { schoolId: convertToObjectId(schoolId) } },
+    { $unset: ['isActive', 'createdAt', 'updatedAt', '__v'] },
     {
       $lookup: {
         from: 'tutors',
@@ -21,7 +24,21 @@ async function getTutorsBySchoolId(schoolId) {
       },
     },
     { $unwind: '$tutor' },
-    { $project: { tutor: 1 } },
+    {
+      $group: {
+        _id: '$tutor._id',
+        tutor: { $first: '$tutor' },
+        studentsCount: { $sum: 1 },
+      },
+    },
+    {
+      $replaceRoot: {
+        newRoot: {
+          $mergeObjects: ['$tutor', { studentsCount: '$studentsCount' }],
+        },
+      },
+    },
+    { $sort: { name: 1, lastName: 1 } },
   ])
 
   return tutors
