@@ -19,8 +19,7 @@ const schema = new mongoose.Schema(
     },
     role: {
       type: String,
-      lowercase: true,
-      enum: ['student', 'tutor', 'teacher', 'admin', 'main'],
+      enum: ['student', 'tutor', 'teacher', 'schoolAdmin', 'admin', 'main'],
       required: true,
     },
     isActive: {

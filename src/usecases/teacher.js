@@ -28,9 +28,11 @@ async function create(data) {
 
   if (emailExist) throw new Error('Email already exists')
 
+  const role = data?.isAdmin ? 'schoolAdmin' : 'teacher'
+
   const user = await signup({
     email: data.email,
-    role: 'teacher',
+    role,
   })
 
   const teacher = await Teacher.create({ ...data, userId: user._id })
@@ -45,6 +47,10 @@ async function create(data) {
 
 async function updateById(id, newData) {
   const teacher = await Teacher.findByIdAndUpdate(id, newData)
+
+  const role = newData?.isAdmin ? 'schoolAdmin' : 'teacher'
+
+  await User.findByIdAndUpdate(teacher._id, { role })
 
   return teacher
 }

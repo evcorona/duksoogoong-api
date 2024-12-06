@@ -50,8 +50,32 @@ async function login(credentials) {
 
   await User.findByIdAndUpdate(user._id, { lastLoginAt: new Date() })
 
+  let userId = ''
+  switch (user.role) {
+    case 'student':
+      userId = user.studentId
+      break
+    case 'tutor':
+      userId = user.tutorId
+      break
+    case 'teacher':
+      userId = user.teacherId
+      break
+    case 'schoolAdmin':
+      userId = user.teacherId
+      break
+    default:
+      userId = user._id
+      break
+  }
+
   const token = jwt.sign(
-    { id: user._id, role: user.role, isInitialSetup: user.isInitialSetup },
+    {
+      role: user.role,
+      isInitialSetup: user.isInitialSetup,
+      schoolId: user.schoolId,
+      userId,
+    },
     process.env.JWT_SECRET
   )
 

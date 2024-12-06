@@ -1,5 +1,6 @@
 const Tutor = require('../models/Tutor')
 const User = require('../models/User')
+const Student = require('../models/Student')
 const { signup } = require('./auth')
 
 async function getAll() {
@@ -9,10 +10,19 @@ async function getAll() {
 }
 
 async function getTutorsBySchoolId(schoolId) {
-  const tutors = await Tutor.find({
-    schoolId,
-    isActive: true,
-  }).populate('userId', 'email')
+  const tutors = await Student.aggregate([
+    { $match: { schoolId } },
+    {
+      $lookup: {
+        from: 'tutors',
+        localField: 'tutorId',
+        foreignField: '_id',
+        as: 'tutor',
+      },
+    },
+    { $unwind: '$tutor' },
+    { $project: { tutor: 1 } },
+  ])
 
   return tutors
 }
