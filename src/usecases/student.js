@@ -2,14 +2,7 @@ const Student = require('../models/Student')
 const User = require('../models/User')
 const { signup } = require('./auth')
 
-async function getAll() {
-  const students = await Student.find({ isActive: true })
-  // .populate('schoolId')
-  // .populate('tutorId')
-  // .populate('teacherId')
-
-  return students
-}
+const convertToObjectId = require('../utils/convertToObjectId')
 
 async function getInactiveBySchool(schoolId) {
   const students = await Student.find({ isActive: false, schoolId })
@@ -21,37 +14,151 @@ async function getInactiveBySchool(schoolId) {
 }
 
 async function getById(id) {
-  const student = await Student.findById(id)
-    .populate('schoolId')
-    .populate('tutorId')
-    .populate('teacherId')
+  const student = await Student.aggregate([
+    { $match: { _id: convertToObjectId(id) } },
+    {
+      $lookup: {
+        from: 'schools',
+        localField: 'schoolId',
+        foreignField: '_id',
+        as: 'school',
+      },
+    },
+    {
+      $lookup: {
+        from: 'tutors',
+        localField: 'tutorId',
+        foreignField: '_id',
+        as: 'tutor',
+      },
+    },
+    {
+      $lookup: {
+        from: 'teachers',
+        localField: 'teacherId',
+        foreignField: '_id',
+        as: 'teacher',
+      },
+    },
+    { $unwind: '$school' },
+    { $unwind: '$tutor' },
+    { $unwind: '$teacher' },
+  ])
 
-  return student
+  return student[0]
 }
 
 async function getStudentsBySchool(schoolId) {
-  const students = await Student.find({ schoolId })
-    .populate('schoolId')
-    .populate('tutorId')
-    .populate('teacherId')
+  const students = await Student.aggregate([
+    { $match: { schoolId: convertToObjectId(schoolId) } },
+    {
+      $lookup: {
+        from: 'schools',
+        localField: 'schoolId',
+        foreignField: '_id',
+        as: 'school',
+      },
+    },
+    {
+      $lookup: {
+        from: 'tutors',
+        localField: 'tutorId',
+        foreignField: '_id',
+        as: 'tutor',
+      },
+    },
+
+    {
+      $lookup: {
+        from: 'teachers',
+        localField: 'teacherId',
+        foreignField: '_id',
+        as: 'teacher',
+      },
+    },
+    { $unwind: '$school' },
+    { $unwind: '$tutor' },
+    { $unwind: '$teacher' },
+    {
+      $sort: { name: 1, lastName: 1 },
+    },
+  ])
 
   return students
 }
 
 async function getStudentsByTutor(tutorId) {
-  const students = await Student.find({ tutorId })
-    .populate('schoolId')
-    .populate('tutorId')
-    .populate('teacherId')
+  const students = await Student.aggregate([
+    { $match: { tutorId: convertToObjectId(tutorId) } },
+    {
+      $lookup: {
+        from: 'schools',
+        localField: 'schoolId',
+        foreignField: '_id',
+        as: 'school',
+      },
+    },
+    {
+      $lookup: {
+        from: 'tutors',
+        localField: 'tutorId',
+        foreignField: '_id',
+        as: 'tutor',
+      },
+    },
+    {
+      $lookup: {
+        from: 'teachers',
+        localField: 'teacherId',
+        foreignField: '_id',
+        as: 'teacher',
+      },
+    },
+    { $unwind: '$school' },
+    { $unwind: '$tutor' },
+    { $unwind: '$teacher' },
+    {
+      $sort: { name: 1, lastName: 1 },
+    },
+  ])
 
   return students
 }
 
 async function getStudentsByTeacher(teacherId) {
-  const students = await Student.find({ teacherId })
-    .populate('schoolId')
-    .populate('tutorId')
-    .populate('teacherId')
+  const students = await Student.aggregate([
+    { $match: { teacherId: convertToObjectId(teacherId) } },
+    {
+      $lookup: {
+        from: 'schools',
+        localField: 'schoolId',
+        foreignField: '_id',
+        as: 'school',
+      },
+    },
+    {
+      $lookup: {
+        from: 'tutors',
+        localField: 'tutorId',
+        foreignField: '_id',
+        as: 'tutor',
+      },
+    },
+    {
+      $lookup: {
+        from: 'teachers',
+        localField: 'teacherId',
+        foreignField: '_id',
+        as: 'teacher',
+      },
+    },
+    { $unwind: '$school' },
+    { $unwind: '$tutor' },
+    { $unwind: '$teacher' },
+    {
+      $sort: { name: 1, lastName: 1 },
+    },
+  ])
 
   return students
 }
@@ -110,7 +217,6 @@ async function deleteById(id) {
 }
 
 module.exports = {
-  getAll,
   getInactiveBySchool,
   getById,
   getStudentsBySchool,

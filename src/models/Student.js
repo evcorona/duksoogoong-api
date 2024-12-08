@@ -12,13 +12,12 @@ const schema = new mongoose.Schema(
     },
     civilStatus: {
       type: String,
-      enum: ['married', 'divorced', 'separated', 'single', 'widowed'],
+      lowercase: true,
+      trim: true,
       required: true,
     },
     curp: {
       type: String,
-      minlength: 1,
-      maxlength: 18,
       uppercase: true,
       trim: true,
       required: true,
@@ -77,7 +76,7 @@ const schema = new mongoose.Schema(
     priorExperienceDays: {
       type: Number,
       min: 0,
-      max: 10,
+      default: 0,
       required: true,
     },
     ruf: {
@@ -111,21 +110,18 @@ const schema = new mongoose.Schema(
           minlength: 1,
           lowercase: true,
           trim: true,
-          required: true,
         },
         state: {
           type: String,
           minlength: 1,
           lowercase: true,
           trim: true,
-          required: true,
         },
         city: {
           type: String,
           minlength: 1,
           lowercase: true,
           trim: true,
-          required: true,
         },
         zipCode: {
           type: String,
@@ -133,7 +129,6 @@ const schema = new mongoose.Schema(
           maxlength: 6,
           match: /[0-9]/g,
           trim: true,
-          required: true,
         },
       },
     },
