@@ -164,12 +164,13 @@ async function getStudentsByTeacher(teacherId) {
 }
 
 async function create(data) {
+  if (data.email) {
+    const emailExist = await User.findOne({ email: data.email })
+    if (emailExist) throw new Error('Email already exists')
+  }
+
   const student = await Student.findOneAndUpdate(
-    {
-      name: data.name,
-      lastName: data.lastName,
-      birthDate: data.birthDate,
-    },
+    { curp: data.curp, name: data.name, lastName: data.lastName },
     {
       ...data,
       isActive: true,
@@ -180,17 +181,16 @@ async function create(data) {
     }
   )
 
-  if (!data?.email) return student
+  if (data.email) {
+    const user = await signup({
+      email: data.email,
+      studentId: student._id,
+      schoolId: data.schoolId,
+      role: 'student',
+    })
 
-  const emailExist = await User.findOne({ email: data.email })
-  if (emailExist) throw new Error('Email already exists')
-
-  await signup({
-    email: data.email,
-    role: 'student',
-    studentId: student._id,
-    schoolId: data.schoolId,
-  })
+    await Student.findByIdAndUpdate(student._id, { userId: user._id })
+  }
 
   return student
 }
@@ -198,12 +198,21 @@ async function create(data) {
 async function updateById(id, newData) {
   const student = await Student.findByIdAndUpdate(id, newData)
 
-  if (student?.userId)
-    await User.findByIdAndUpdate(student?.userId, {
-      name: student.name,
-      lastName: student.lastName,
-      isActive: student.isActive,
+  if (!student?.userId && newData.email) {
+    if (newData.email) {
+      const emailExist = await User.findOne({ email: newData.email })
+      if (emailExist) throw new Error('Email already exists')
+    }
+
+    const user = await signup({
+      email: newData.email,
+      studentId: student._id,
+      schoolId: newData.schoolId,
+      role: 'student',
     })
+
+    await Student.findByIdAndUpdate(student._id, { userId: user._id })
+  }
 
   return student
 }
